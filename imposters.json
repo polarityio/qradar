@@ -1,0 +1,104 @@
+{
+  "imposters": [
+    {
+      "port": 5555,
+      "protocol": "https",
+      "name": "origin",
+      "stubs": [
+        {
+          "predicates": [
+            {
+              "equals": {
+                "path": "/api/siem/source_addresses",
+                "query": {
+                  "filter": "source_ip = \"172.31.60.5\""
+                }
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "body": [
+                  {
+                    "local_destination_address_ids": [],
+                    "event_flow_count": 16884,
+                    "first_event_flow_seen": 1514570963708,
+                    "last_event_flow_seen": 1514665463101,
+                    "source_ip": "172.31.60.5",
+                    "magnitude": 0,
+                    "id": 1,
+                    "offense_ids": [
+                      2
+                    ],
+                    "domain_id": 0,
+                    "network": "Net-10-172-192.Net_172_16_0_0"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "predicates": [
+            {
+              "equals": {
+                "path": "/api/siem/offenses/2"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "body": {
+                  "username_count": 0,
+                  "description": "Anomaly: Access to Honeypot or Tarpit Defined Address\n containing Information Message\n",
+                  "event_count": 602,
+                  "flow_count": 0,
+                  "assigned_to": null,
+                  "security_category_count": 3,
+                  "follow_up": false,
+                  "source_address_ids": [
+                    1
+                  ],
+                  "source_count": 1,
+                  "inactive": false,
+                  "protected": false,
+                  "category_count": 3,
+                  "source_network": "Net-10-172-192.Net_172_16_0_0",
+                  "destination_networks": [
+                    "other"
+                  ],
+                  "closing_user": null,
+                  "close_time": null,
+                  "remote_destination_count": 1,
+                  "start_time": 1514570940002,
+                  "last_updated_time": 1514574348676,
+                  "credibility": 4,
+                  "magnitude": 4,
+                  "id": 2,
+                  "categories": [
+                    "Information",
+                    "Unknown Malware",
+                    "Warning"
+                  ],
+                  "severity": 5,
+                  "policy_category_count": 0,
+                  "device_count": 2,
+                  "closing_reason_id": null,
+                  "offense_type": 0,
+                  "relevance": 4,
+                  "domain_id": 0,
+                  "offense_source": "172.31.60.5",
+                  "local_destination_address_ids": [],
+                  "local_destination_count": 0,
+                  "status": "OPEN"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
