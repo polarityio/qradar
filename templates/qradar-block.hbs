@@ -20,15 +20,17 @@
         </p>
         <p>
             Offense Source:
-            <b style="color:{{if isHighSeverity "red" "black"}}">
+            <b style="color:{{if isHighSeverity " red " "black "}}">
                 {{detail.offense_source}}
             </b>
         </p>
         <p>
-            Destinations: {{#each detail.destination_networks as |destination|}}
-            <p>
-                <b>{{destination}}</b>
-            </p>
+            Destinations:
+            <ul>{{#each detail.destination_networks as |destination|}}
+                <li>
+                    <b>{{destination}}</b>
+                </li>
+            </ul>
             {{/each}}
         </p>
         <p>
@@ -36,11 +38,13 @@
             <b>{{detail.offense_source}}</b>
         </p>
         <p>
-            Categories: {{#each detail.categories as |category|}}
-            <p>
-                <b>{{category}}</b>
-            </p>
-            {{/each}}
+            Categories:
+            <ul>{{#each detail.categories as |category|}}
+                <li>
+                    <b>{{category}}</b>
+                </li>
+                {{/each}}
+            </ul>
         </p>
     </div>
     {{/each}}
