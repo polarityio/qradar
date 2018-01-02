@@ -62,7 +62,28 @@ function startup(logger) {
     Logger = logger;
 }
 
+function validateOption(errors, options, optionName, errMessage) {
+    if (typeof options[optionName].value !== 'string' ||
+        (typeof options[optionName].value === 'string' && options[optionName].value.length === 0)) {
+        errors.push({
+            key: optionName,
+            message: errMessage
+        });
+    }
+}
+
+function validateOptions(options, callback) {
+    let errors = [];
+    
+    validateOption(errors, options, 'url', 'You must provide a valid host for the IBM QRadar server.');
+    validateOption(errors, options, 'username', 'You must provide a valid username for authentication with the IBM QRadar server.');
+    validateOption(errors, options, 'password', 'You must provide a valid password for authentication with the IBM QRadar server.');
+
+    callback(null, errors);
+}
+
 module.exports = {
     doLookup: doLookup,
-    startup: startup
+    startup: startup,
+    validateOptions: validateOptions
 };
