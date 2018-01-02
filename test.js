@@ -1,5 +1,6 @@
 let assert = require('chai').assert;
 let bunyan = require('bunyan');
+let async = require('async');
 let integration = require('./integration');
 
 describe('IBM QRadar Integration', () => {
@@ -27,9 +28,9 @@ describe('IBM QRadar Integration', () => {
     describe('user configuration options', () => {
         it('should pass valid options', (done) => {
             integration.validateOptions({
-                url: {value: 'google.com'},
-                username: {value:'mocha'},
-                password: {value:'test'}
+                url: { value: 'google.com' },
+                username: { value: 'mocha' },
+                password: { value: 'test' }
             }, (op, errs) => {
                 assert.deepEqual(errs, []);
                 done();
@@ -38,9 +39,9 @@ describe('IBM QRadar Integration', () => {
 
         it('should reject missing url', (done) => {
             integration.validateOptions({
-                url: {value: ''},
-                username: {value:'mocha'},
-                password: {value:'test'}
+                url: { value: '' },
+                username: { value: 'mocha' },
+                password: { value: 'test' }
             }, (op, errs) => {
                 assert.deepEqual(errs, [{
                     key: 'url',
@@ -52,9 +53,9 @@ describe('IBM QRadar Integration', () => {
 
         it('should reject missing username', (done) => {
             integration.validateOptions({
-                url: {value: 'google.com'},
-                username: {value:''},
-                password: {value:'test'}
+                url: { value: 'google.com' },
+                username: { value: '' },
+                password: { value: 'test' }
             }, (op, errs) => {
                 assert.deepEqual(errs, [{
                     key: 'username',
@@ -66,9 +67,9 @@ describe('IBM QRadar Integration', () => {
 
         it('should reject missing password', (done) => {
             integration.validateOptions({
-                url: {value: 'google.com'},
-                username: {value:'mocha'},
-                password: {value:''}
+                url: { value: 'google.com' },
+                username: { value: 'mocha' },
+                password: { value: '' }
             }, (op, errs) => {
                 assert.deepEqual(errs, [{
                     key: 'password',
@@ -80,18 +81,34 @@ describe('IBM QRadar Integration', () => {
 
         it('collect multiple errors', (done) => {
             integration.validateOptions({
-                url: {value: 'google.com'},
-                username: {value:''},
-                password: {value:''}
+                url: { value: 'google.com' },
+                username: { value: '' },
+                password: { value: '' }
             }, (op, errs) => {
                 assert.deepEqual(errs, [{
                     key: 'username',
                     message: 'You must provide a valid username for authentication with the IBM QRadar server.'
-                },{
+                }, {
                     key: 'password',
                     message: 'You must provide a valid password for authentication with the IBM QRadar server.'
                 }]);
                 done();
+            });
+        });
+
+        it('should allow private ips to be ignored', (done) => {
+            async.each(['0.0.0.0', '255.255.255.255', '127.0.0.1'], (ip, cb) => {
+                let opts = JSON.parse(JSON.stringify(options));
+                opts.ignorePrivateIps = true;
+                integration.doLookup([{ isIP: true, value: ip }], opts, (err, result) => {
+                    if (!err) {
+                        assert.isEmpty(result);
+                    }
+
+                    cb(err);
+                });
+            }, (err) => {
+                done(err);
             });
         });
     });

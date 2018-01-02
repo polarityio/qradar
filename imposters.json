@@ -8,12 +8,40 @@
         {
           "predicates": [
             {
-              "equals": {
-                "path": "/api/siem/source_addresses",
-                "query": {
-                  "filter": "source_ip = \"172.31.60.5\""
+              "or": [
+                {
+                  "equals": {
+                    "path": "/api/siem/source_addresses",
+                    "query": {
+                      "filter": "source_ip = \"172.31.60.5\""
+                    }
+                  }
+                },
+                {
+                  "equals": {
+                    "path": "/api/siem/source_addresses",
+                    "query": {
+                      "filter": "source_ip = \"0.0.0.0\""
+                    }
+                  }
+                },
+                {
+                  "equals": {
+                    "path": "/api/siem/source_addresses",
+                    "query": {
+                      "filter": "source_ip = \"255.255.255.255\""
+                    }
+                  }
+                },
+                {
+                  "equals": {
+                    "path": "/api/siem/source_addresses",
+                    "query": {
+                      "filter": "source_ip = \"127.0.0.1\""
+                    }
+                  }
                 }
-              }
+              ]
             }
           ],
           "responses": [

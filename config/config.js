@@ -154,7 +154,7 @@ module.exports = {
             type: "boolean",
             userCanEdit: false,
             adminOnly: true
-        },
+        }*/,
         {
             key: "ignorePrivateIps",
             name: "Ignore Private IPs",
@@ -164,6 +164,5 @@ module.exports = {
             userCanEdit: false,
             adminOnly: true
         }
-        */
     ]
 };

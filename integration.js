@@ -5,6 +5,12 @@ let QRadar = new require('./qradar-api');
 
 let Logger;
 
+const PRIVATE_IPS = [
+    '0.0.0.0',
+    '255.255.255.255',
+    '127.0.0.1'
+];
+
 function doLookup(entities, options, callback) {
     let api = new QRadar({
         username: options.username,
@@ -21,36 +27,42 @@ function doLookup(entities, options, callback) {
         (entity, callback) => {
             Logger.trace('Checking if entity is IP');
 
-            if (entity.isIP) {
-                Logger.trace('Getting offense from QRadar API');
-
-                api.getOffenses(entity.value, (err, offense) => {
-                    Logger.trace('Got response from API');
-                    let result;
-
-                    if (!err) {
-                        Logger.trace('Response was ok');
-
-                        if (offense.length > 0) {
-                            results.push({
-                                entity: entity,
-                                data: {
-                                    summary: [entity.value],
-                                    details: offense
-                                }
-                            });
-                        } else {
-                            Logger.trace({ ip: entity.value }, 'No offenses match this ip');
-                        }
-                    } else {
-                        Logger.error({ error: err, ip: entity.value }, 'Error getting offense for ip');
-                    }
-
-                    callback(err);
-                });
-            } else {
+            if (!entity.isIP) {
                 callback(null);
+                return;
             }
+
+            if (PRIVATE_IPS.includes(entity.value)) {
+                callback(null);
+                return;
+            }
+
+            Logger.trace('Getting offense from QRadar API');
+
+            api.getOffenses(entity.value, (err, offense) => {
+                Logger.trace('Got response from API');
+                let result;
+
+                if (!err) {
+                    Logger.trace('Response was ok');
+
+                    if (offense.length > 0) {
+                        results.push({
+                            entity: entity,
+                            data: {
+                                summary: [entity.value],
+                                details: offense
+                            }
+                        });
+                    } else {
+                        Logger.trace({ ip: entity.value }, 'No offenses match this ip');
+                    }
+                } else {
+                    Logger.error({ error: err, ip: entity.value }, 'Error getting offense for ip');
+                }
+
+                callback(err);
+            });
         },
         (err) => {
             Logger.trace({ results: results }, 'Results sent to client')
@@ -74,7 +86,7 @@ function validateOption(errors, options, optionName, errMessage) {
 
 function validateOptions(options, callback) {
     let errors = [];
-    
+
     validateOption(errors, options, 'url', 'You must provide a valid host for the IBM QRadar server.');
     validateOption(errors, options, 'username', 'You must provide a valid username for authentication with the IBM QRadar server.');
     validateOption(errors, options, 'password', 'You must provide a valid password for authentication with the IBM QRadar server.');
