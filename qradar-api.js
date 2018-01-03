@@ -52,6 +52,7 @@ class QRadar {
                         });
                 },
                 err => {
+                    this.logger.console.error({error:err}, 'Error during offense lookup');
                     callback(err, offenses);
                 });
 
