@@ -25,6 +25,14 @@ describe('IBM QRadar Integration', () => {
         });
     });
 
+    it('should handle ibm api errors gracefully', (done) => {
+        let ipWithCorruptedData = '1.1.1.1';
+        integration.doLookup([{ isIP: true, value: ipWithCorruptedData }], options, (err, result) => {
+            assert.isEmpty(result);
+            done();
+        });
+    });
+
     describe('user configuration options', () => {
         it('should pass valid options', (done) => {
             integration.validateOptions({

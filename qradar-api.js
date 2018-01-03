@@ -43,7 +43,7 @@ class QRadar {
                             rejectUnauthorized: false
                         },
                         (err, response, offense) => {
-                            if (!err) {
+                            if (!err && offense != null) {
                                 this.logger.trace({ responseBody: offense}, 'Offense lookup response body');
                                 offenses.push(offense);
                             }
