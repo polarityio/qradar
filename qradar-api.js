@@ -27,32 +27,42 @@ class QRadar {
         this.logger.debug({ options: maskedOptions }, 'Request Options for Offense Search');
 
         let offenses = [];
-        
+
         request(options, (err, response, source_addresses) => {
             async.each(source_addresses,
                 (address, callback) => {
-                    request(
-                        {
-                            uri: this.config.host + '/api/siem/offenses/' + address.offense_ids[0], // TODO get all matching offenses
-                            method: 'GET',
-                            json: true,
-                            auth: {
-                                username: this.config.username,
-                                password: this.config.password
+                    async.each(address.offense_ids, (id, callback) => {
+                        request(
+                            {
+                                uri: this.config.host + '/api/siem/offenses/' + id, // TODO get all matching offenses
+                                method: 'GET',
+                                json: true,
+                                auth: {
+                                    username: this.config.username,
+                                    password: this.config.password
+                                },
+                                rejectUnauthorized: false
                             },
-                            rejectUnauthorized: false
-                        },
-                        (err, response, offense) => {
-                            if (!err && offense != null) {
-                                this.logger.trace({ responseBody: offense}, 'Offense lookup response body');
-                                offenses.push(offense);
-                            }
+                            (err, response, offense) => {
+                                if (!err && offense != null) {
+                                    this.logger.trace({ responseBody: offense }, 'Offense lookup response body');
+                                    offenses.push(offense);
+                                }
 
-                            callback(err);
-                        });
+                                if (err) {
+                                    this.logger.error({ error: err }, 'Error during single offense lookup');
+                                }
+
+                                callback(err);
+                            });
+                    }, err => {
+                        callback(err);
+                    });
                 },
                 err => {
-                    this.logger.console.error({error:err}, 'Error during offense lookup');
+                    if (err) {
+                        this.logger.error({ error: err }, 'Error during offenses lookup');
+                    }
                     callback(err, offenses);
                 });
 

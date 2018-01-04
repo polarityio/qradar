@@ -127,6 +127,19 @@ module.exports = {
             userCanEdit: true,
             adminOnly: false
         },
+        {
+            key: "ignorePrivateIps",
+            name: "Ignore Private IPs",
+            description: "If set to true, private IPs (RFC 1918 addresses) will not be looked up (includes 127.0.0.1, 0.0.0.0, and 255.255.255.255)",
+            default: true,
+            type: "boolean",
+            userCanEdit: false,
+            adminOnly: true
+        }
+    ]
+};
+
+
         /*
         {
             key: "minimumSeverity",
@@ -154,15 +167,4 @@ module.exports = {
             type: "boolean",
             userCanEdit: false,
             adminOnly: true
-        }*/,
-        {
-            key: "ignorePrivateIps",
-            name: "Ignore Private IPs",
-            description: "If set to true, private IPs (RFC 1918 addresses) will not be looked up (includes 127.0.0.1, 0.0.0.0, and 255.255.255.255)",
-            default: true,
-            type: "boolean",
-            userCanEdit: false,
-            adminOnly: true
-        }
-    ]
-};
+        }*/
