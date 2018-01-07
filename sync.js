@@ -3,8 +3,10 @@
 let watch = require('node-watch');
 let client = require('scp2');
 let NodeSsh = require('node-ssh');
-let ssh = new NodeSsh();
+let Path = require('path');
 let readline = require('readline');
+
+let ssh = new NodeSsh();
 let reader = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -24,7 +26,7 @@ reader.question('Polarity server username > ', (USERNAME) => {
                 username: USERNAME,
                 password: PASSWORD,
                 host: 'dev.polarity',
-                path: '/app/polarity-server/integrations/qradar'
+                path: '/app/polarity-server/integrations/qradar/' + Path.dirname(filename)
             }, (err) => {
                 if (err) {
                     console.error('Failed to sync change for ' + filename + ', error was: ' + err);

@@ -45,12 +45,12 @@ function doLookup(entities, options, callback) {
 
                 if (!err) {
                     Logger.trace('Response was ok');
-
+                    
                     if (offense.length > 0) {
                         results.push({
                             entity: entity,
                             data: {
-                                summary: [entity.value],
+                                summary: ['test'],
                                 details: offense
                             }
                         });
