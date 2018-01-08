@@ -119,5 +119,48 @@ describe('IBM QRadar Integration', () => {
                 done(err);
             });
         });
+
+        describe('non-open issue filtering', (done) => {
+            it('should show all issues when not filtering', (done) => {
+                let opts = JSON.parse(JSON.stringify(options));
+                opts.openOnly = false;
+                integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
+                    if (!err) {
+                        assert.equal(1, result.length);
+                        assert.equal(result[0].data.details.length, 3);
+                    }
+
+                    done(err);
+                });
+            });
+
+            it('should only show open issues when filtering', (done) => {
+                let opts = JSON.parse(JSON.stringify(options));
+                opts.openOnly = true;
+                integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
+                    if (!err) {
+                        assert.equal(1, result.length);
+                        assert.equal(result[0].data.details.length, 2);
+                    }
+
+                    done(err);
+                });
+            });
+        });
+
+        describe('severity filtering', () => {
+            it('should filter issues below a threshold', (done) => {
+                let opts = JSON.parse(JSON.stringify(options));
+                opts.minimumSeverity = 6;
+                integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
+                    if (!err) {
+                        assert.equal(1, result.length);
+                        assert.equal(result[0].data.details.length, 2);
+                    }
+
+                    done(err);
+                });
+            });
+        });
     });
 });

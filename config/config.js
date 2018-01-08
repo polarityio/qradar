@@ -135,36 +135,24 @@ module.exports = {
             type: "boolean",
             userCanEdit: false,
             adminOnly: true
-        }
-    ]
-};
-
-
-        /*
+        },
         {
             key: "minimumSeverity",
             name: "Minimum Severity Level",
-            description: "The minimum severity level required for indicators to be displayed [low, medium, high, very-high]",
-            default: 'low',
+            description: "The minimum severity level required for indicators to be displayed",
+            default: 0,
             type: "text",
             userCanEdit: true,
             adminOnly: false
         },
         {
-            key: "minimumConfidence",
-            name: "Minimum Confidence Level",
-            description: "The minimum confidence level required for indicators to be displayed",
-            default: 0,
-            type: "number",
-            userCanEdit: true,
-            adminOnly: false
-        },
-        {
-            key: "activeOnly",
-            name: "Active Threats Only",
-            description: "If set to true, only threats with a status value of 'active' will be searched",
+            key: "openOnly",
+            name: "Open Offenses Only",
+            description: "If set to true, only offenses with a status value of 'OPEN' will be searched",
             default: true,
             type: "boolean",
             userCanEdit: false,
             adminOnly: true
-        }*/
+        }
+    ]
+};

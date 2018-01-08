@@ -39,29 +39,45 @@ function doLookup(entities, options, callback) {
 
             Logger.trace('Getting offense from QRadar API');
 
-            api.getOffenses(entity.value, (err, offense) => {
+            api.getOffenses(entity.value, (err, candidates) => {
                 Logger.trace('Got response from API');
                 let result;
 
-                if (!err) {
-                    Logger.trace('Response was ok');
-                    
-                    if (offense.length > 0) {
-                        results.push({
-                            entity: entity,
-                            data: {
-                                summary: ['test'],
-                                details: offense
-                            }
-                        });
-                    } else {
-                        Logger.trace({ ip: entity.value }, 'No offenses match this ip');
-                    }
-                } else {
+                if (err) {
                     Logger.error({ error: err, ip: entity.value }, 'Error getting offense for ip');
+                    callback(err);
+                    return;
                 }
 
-                callback(err);
+                let offenses = [];
+
+                candidates.forEach((candidate) => {
+                    if (options.openOnly && candidate.status !== 'OPEN') {
+                        return;
+                    }
+
+                    if (candidate.severity < options.minimumSeverity) {
+                        return;
+                    }
+
+                    offenses.push(candidate);
+                });
+
+                if (candidates.length < 1) {
+                    Logger.trace({ ip: entity.value }, 'No offenses match this ip');
+                    callback(null);
+                    return;
+                }
+
+                results.push({
+                    entity: entity,
+                    data: {
+                        summary: ['test'],
+                        details: offenses
+                    }
+                });
+
+                callback(null);
             });
         },
         (err) => {
