@@ -161,6 +161,18 @@ describe('IBM QRadar Integration', () => {
                     done(err);
                 });
             });
+
+            it('should return no results when all offenses are filtered', (done) => {
+                let opts = JSON.parse(JSON.stringify(options));
+                opts.minimumSeverity = 999;
+                integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
+                    if (!err) {
+                        assert.equal(0, result.length);
+                    }
+
+                    done(err);
+                });
+            });
         });
     });
 });

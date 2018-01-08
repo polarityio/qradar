@@ -63,7 +63,7 @@ function doLookup(entities, options, callback) {
                     offenses.push(candidate);
                 });
 
-                if (candidates.length < 1) {
+                if (offenses.length < 1) {
                     Logger.trace({ ip: entity.value }, 'No offenses match this ip');
                     callback(null);
                     return;
