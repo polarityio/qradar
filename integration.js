@@ -32,7 +32,7 @@ function doLookup(entities, options, callback) {
                 return;
             }
 
-            if (PRIVATE_IPS.includes(entity.value)) {
+            if (options.ignorePrivateIps && PRIVATE_IPS.includes(entity.value)) {
                 callback(null);
                 return;
             }
