@@ -4,6 +4,8 @@ let config = require('./config/config');
 let QRadar = new require('./qradar-api');
 
 let Logger;
+let caContents;
+let certContents;
 
 const PRIVATE_IPS = [
     '0.0.0.0',
@@ -12,6 +14,9 @@ const PRIVATE_IPS = [
 ];
 
 function doLookup(entities, options, callback) {
+    options.ca = caContents;
+    options.cert = certContents;
+    
     let api = new QRadar({
         username: options.username,
         password: options.password,
@@ -88,6 +93,14 @@ function doLookup(entities, options, callback) {
 
 function startup(logger) {
     Logger = logger;
+
+    if (typeof config.request.cert === 'string' && config.request.cert.length > 0) {
+        certContents = fs.readFileSync(config.request.cert);
+    }
+
+    if (typeof config.request.ca === 'string' && config.request.ca.length > 0) {
+        caContents = fs.readFileSync(config.request.ca);
+    }
 }
 
 function validateOption(errors, options, optionName, errMessage) {

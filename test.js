@@ -2,6 +2,8 @@ let assert = require('chai').assert;
 let bunyan = require('bunyan');
 let async = require('async');
 let integration = require('./integration');
+let config = require('./config/config');
+config.request.rejectUnauthorized = false;
 
 describe('IBM QRadar Integration', () => {
     let options = {
