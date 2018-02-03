@@ -22,7 +22,7 @@ module.exports = {
      * @type String
      * @optional
      */
-    description: "TODO IBM QRadar integration description",
+    description: "IBM® QRadar® SIEM helps uncover security risks by analyzing and correlating log and networks events.",
     entityTypes: ['IPv4'],
     /**
      * An array of style files (css or less) that will be included for your integration. Any styles specified in
@@ -84,7 +84,7 @@ module.exports = {
         // the directory you specify is writable by the `polarityd:polarityd` user and group.
 
         //directoryPath: '/var/log/polarity-integrations',
-        level: 'info',  //trace, debug, info, warn, error, fatal
+        level: 'trace',  //trace, debug, info, warn, error, fatal
     },
     /**
      * Options that are displayed to the user/admin in the Polarity integration user-interface.  Should be structured

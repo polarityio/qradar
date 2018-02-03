@@ -7,7 +7,8 @@
   "scripts": {
     "pretest": "mb start --configfile imposters.json &",
     "test": "mocha --recursive || mb stop",
-    "posttest": "mb stop"
+    "posttest": "mb stop",
+    "dev": "./sync.js"
   },
   "author": "Polarity",
   "license": "MIT",
