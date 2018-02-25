@@ -16,7 +16,7 @@ const PRIVATE_IPS = [
 function doLookup(entities, options, callback) {
     options.ca = caContents;
     options.cert = certContents;
-    
+
     let api = new QRadar({
         username: options.username,
         password: options.password,
@@ -25,70 +25,75 @@ function doLookup(entities, options, callback) {
 
     Logger.trace({ entities: entities }, 'Entities received by integration');
 
-    let candidates = entities.filter(entity => entity.isIP);
-    let results = [];
+    let candidates = entities
+        .filter(entity => entity.isIP)
+        .filter(entity => !(options.ignorePrivateIps && PRIVATE_IPS.includes(entity.value)));
 
-    async.each(candidates,
-        (entity, callback) => {
-            Logger.trace('Checking if entity is IP');
+    let ips = candidates.map(entity => entity.value);
+    let entityByIp = entities.reduce((accum, next) => {
+        accum[next.value] = {
+            entity: next,
+            data: {
+                summary: ['test'],
+                details: []
+            }
+        };
+        return accum;
+    }, {})
 
-            if (!entity.isIP) {
-                callback(null);
+    Logger.trace('Getting offense from QRadar API');
+
+    Logger.trace({ entityByIp: entityByIp });
+
+    api.getOffenses(ips, (err, candidates) => {
+        if (err) {
+            Logger.error({ error: err, ips: ips }, 'Error getting offense for ips');
+            callback(err);
+            return;
+        }
+
+        let offenses = [];
+        let results = [];
+
+        Logger.trace({ candidates: candidates }, 'Got response from API');
+
+        candidates.forEach(candidate => {
+            if (options.openOnly && candidate.status !== 'OPEN') {
                 return;
             }
 
-            if (options.ignorePrivateIps && PRIVATE_IPS.includes(entity.value)) {
-                callback(null);
+            if (candidate.severity < options.minimumSeverity) {
                 return;
             }
 
-            Logger.trace('Getting offense from QRadar API');
-
-            api.getOffenses(entity.value, (err, candidates) => {
-                Logger.trace('Got response from API');
-                let result;
-
-                if (err) {
-                    Logger.error({ error: err, ip: entity.value }, 'Error getting offense for ip');
-                    callback(err);
-                    return;
-                }
-
-                let offenses = [];
-
-                candidates.forEach((candidate) => {
-                    if (options.openOnly && candidate.status !== 'OPEN') {
-                        return;
-                    }
-
-                    if (candidate.severity < options.minimumSeverity) {
-                        return;
-                    }
-
-                    offenses.push(candidate);
-                });
-
-                if (offenses.length < 1) {
-                    Logger.trace({ ip: entity.value }, 'No offenses match this ip');
-                    callback(null);
-                    return;
-                }
-
-                results.push({
-                    entity: entity,
-                    data: {
-                        summary: ['test'],
-                        details: offenses
-                    }
-                });
-
-                callback(null);
-            });
-        },
-        (err) => {
-            Logger.trace({ results: results }, 'Results sent to client')
-            callback(err, results);
+            offenses.push(candidate);
         });
+
+        Logger.trace({ offenses: offenses }, 'Offenses');
+
+        offenses.forEach(offense => {
+            if (!entityByIp[offense.offense_source]) {
+                // Do nothing
+                return;
+            }
+
+            entityByIp[offense.offense_source].data.details.push(offense);
+        });
+
+        for (let k in entityByIp) {
+            let result = entityByIp[k]
+
+            if (result.data.details.length == 0) {
+                result.data = null;
+            }
+
+            results.push(result);
+        }
+
+        Logger.trace({ results: results });
+
+        callback(null, results);
+    });
 }
 
 function startup(logger) {

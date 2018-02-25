@@ -13,7 +13,7 @@
                   "equals": {
                     "path": "/api/siem/source_addresses",
                     "query": {
-                      "filter": "source_ip = \"172.31.60.5\""
+                      "filter": "source_ip in ('172.31.60.5')"
                     }
                   }
                 },
@@ -21,7 +21,7 @@
                   "equals": {
                     "path": "/api/siem/source_addresses",
                     "query": {
-                      "filter": "source_ip = \"0.0.0.0\""
+                      "filter": "source_ip in ('0.0.0.0')"
                     }
                   }
                 },
@@ -29,7 +29,7 @@
                   "equals": {
                     "path": "/api/siem/source_addresses",
                     "query": {
-                      "filter": "source_ip = \"255.255.255.255\""
+                      "filter": "source_ip in ('255.255.255.255')"
                     }
                   }
                 },
@@ -37,7 +37,7 @@
                   "equals": {
                     "path": "/api/siem/source_addresses",
                     "query": {
-                      "filter": "source_ip = \"127.0.0.1\""
+                      "filter": "source_ip in ('127.0.0.1')"
                     }
                   }
                 }
@@ -73,7 +73,7 @@
               "equals": {
                 "path": "/api/siem/source_addresses",
                 "query": {
-                  "filter": "source_ip = \"111.111.111.111\""
+                  "filter": "source_ip in ('111.111.111.111')"
                 }
               }
             }
@@ -111,7 +111,7 @@
                   "equals": {
                     "path": "/api/siem/source_addresses",
                     "query": {
-                      "filter": "source_ip = \"1.1.1.1\""
+                      "filter": "source_ip in ('1.1.1.1')"
                     }
                   }
                 }
