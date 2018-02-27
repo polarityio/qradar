@@ -13,7 +13,7 @@ describe('IBM QRadar Integration', () => {
     };
 
     before(() => {
-        let logger = bunyan.createLogger({ name: 'Mocha Test' });
+        let logger = bunyan.createLogger({ name: 'Mocha Test', level: bunyan.TRACE });
         integration.startup(logger);
     });
 
@@ -30,7 +30,7 @@ describe('IBM QRadar Integration', () => {
     it('should handle ibm api errors gracefully', (done) => {
         let ipWithCorruptedData = '1.1.1.1';
         integration.doLookup([{ isIP: true, value: ipWithCorruptedData }], options, (err, result) => {
-            assert.isEmpty(result);
+            assert.isOk(err);
             done();
         });
     });
@@ -112,7 +112,16 @@ describe('IBM QRadar Integration', () => {
                 opts.ignorePrivateIps = true;
                 integration.doLookup([{ isIP: true, value: ip }], opts, (err, result) => {
                     if (!err) {
-                        assert.isEmpty(result);
+                        assert.deepEqual(result, [{
+                            entity: {
+                                isIP: true,
+                                value: ip
+                            },
+                            data: {
+                                summary: ['test'],
+                                details: null
+                            }
+                        }]);
                     }
 
                     cb(err);
@@ -123,7 +132,7 @@ describe('IBM QRadar Integration', () => {
         });
 
         describe('non-open issue filtering', (done) => {
-            it('should show all issues when not filtering', (done) => {
+            it.only('should show all issues when not filtering', (done) => {
                 let opts = JSON.parse(JSON.stringify(options));
                 opts.openOnly = false;
                 integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {

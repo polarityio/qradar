@@ -2,6 +2,8 @@ let request = require('request');
 let async = require('async');
 let config = require('./config/config');
 
+const BATCH_SIZE = 10;
+
 class QRadar {
     constructor(options, logger) {
         this.options = options;
@@ -24,58 +26,78 @@ class QRadar {
     }
 
     getOffenses(ips, callback) {
-        let options = this.defaultRequestOptions();
-        options.uri = this.options.host + '/api/siem/source_addresses';
-        options.qs = {
-            filter: 'source_ip in (' + ips.map(ip => `'${ip}'`).join(',') + ')'
-        };
+        let batches = ips.reduce((accum, next) => {
+            if (accum.length == 0) {
+                accum.push([]);
+            }
 
-        let maskedOptions = JSON.parse(JSON.stringify(options));
-        maskedOptions.auth.password = '********';
-        this.logger.debug({ options: maskedOptions }, 'Request Options for Offense Search');
+            let last = accum[accum.length - 1];
+
+            if (last.length < BATCH_SIZE) {
+                last.push(next);
+            } else {
+                accum.push([next]);
+            }
+
+            return accum;
+        }, []);
 
         let offenses = [];
 
-        request(options, (err, response, source_addresses) => {
-            if (err) {
-                this.logger.error({ error: err }, 'Search returned error');
-                callback(err);
-                return;
-            }
+        async.each(batches, (batch, callback) => {
+            let options = this.defaultRequestOptions();
+            options.uri = this.options.host + '/api/siem/source_addresses';
+            options.qs = {
+                filter: 'source_ip in (' + batch.map(ip => `'${ip}'`).join(',') + ')',
+                range: '0-' + (BATCH_SIZE * 2)
+            };
 
-            async.each(source_addresses,
-                (address, callback) => {
-                    let ids = address.offense_ids
-                        .reduce((accum, next) => accum.concat(next), []);
+            let maskedOptions = JSON.parse(JSON.stringify(options));
+            maskedOptions.auth.password = '********';
+            this.logger.debug({ options: maskedOptions }, 'Request Options for Offense Search');
 
-                    this.logger.trace({ ids: ids }, 'Looking up ids');
+            request(options, (err, response, source_addresses) => {
+                if (err) {
+                    this.logger.error({ error: err }, 'Search returned error');
+                    callback(err);
+                    return;
+                }
 
-                    async.each(ids, (id, callback) => {
-                        let options = this.defaultRequestOptions();
-                        options.url = this.options.host + '/api/siem/offenses/' + id;
-                        request(
-                            options,
-                            (err, response, offense) => {
-                                if (err || response.statusCode !== 200) {
-                                    this.logger.error({ error: err }, 'Error during single offense lookup');
-                                    callback(err || new Error('request failed with status ' + response.statusCode));
-                                    return;
-                                }
+                async.each(source_addresses,
+                    (address, callback) => {
+                        let ids = address.offense_ids
+                            .reduce((accum, next) => accum.concat(next), []);
 
-                                this.logger.trace({ responseBody: offense }, 'Offense lookup response body');
-                                offenses.push(offense);
-                                callback(null);
-                            });
+                        this.logger.trace({ ids: ids }, 'Looking up ids');
+
+                        async.each(ids, (id, callback) => {
+                            let options = this.defaultRequestOptions();
+                            options.url = this.options.host + '/api/siem/offenses/' + id;
+                            request(
+                                options,
+                                (err, response, offense) => {
+                                    if (err || response.statusCode !== 200) {
+                                        this.logger.error({ error: err }, 'Error during single offense lookup');
+                                        callback(err || new Error('request failed with status ' + response.statusCode));
+                                        return;
+                                    }
+
+                                    this.logger.trace({ responseBody: offense }, 'Offense lookup response body');
+                                    offenses.push(offense);
+                                    callback(null);
+                                });
+                        }, err => {
+                            callback(err);
+                        });
                     }, err => {
                         callback(err);
                     });
-                },
-                err => {
-                    if (err) {
-                        this.logger.error({ error: err }, 'Error during offenses lookup');
-                    }
-                    callback(err, offenses);
-                });
+            });
+        }, err => {
+            if (err) {
+                this.logger.error({ error: err }, 'Error during offenses lookup');
+            }
+            callback(err, offenses);
         });
     }
 }
