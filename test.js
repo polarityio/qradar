@@ -117,10 +117,7 @@ describe('IBM QRadar Integration', () => {
                                 isIP: true,
                                 value: ip
                             },
-                            data: {
-                                summary: ['test'],
-                                details: null
-                            }
+                            data: null
                         }]);
                     }
 
@@ -132,13 +129,13 @@ describe('IBM QRadar Integration', () => {
         });
 
         describe('non-open issue filtering', (done) => {
-            it.only('should show all issues when not filtering', (done) => {
+            it('should show all issues when not filtering', (done) => {
                 let opts = JSON.parse(JSON.stringify(options));
                 opts.openOnly = false;
                 integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
                     if (!err) {
                         assert.equal(1, result.length);
-                        assert.equal(result[0].data.details.length, 3);
+                        assert.equal(result[0].data.details.length, 5);
                     }
 
                     done(err);
@@ -151,7 +148,7 @@ describe('IBM QRadar Integration', () => {
                 integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
                     if (!err) {
                         assert.equal(1, result.length);
-                        assert.equal(result[0].data.details.length, 2);
+                        assert.equal(result[0].data.details.length, 1);
                     }
 
                     done(err);
@@ -166,7 +163,7 @@ describe('IBM QRadar Integration', () => {
                 integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
                     if (!err) {
                         assert.equal(1, result.length);
-                        assert.equal(result[0].data.details.length, 2);
+                        assert.equal(result[0].data.details.length, 4);
                     }
 
                     done(err);
@@ -178,7 +175,7 @@ describe('IBM QRadar Integration', () => {
                 opts.minimumSeverity = 999;
                 integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
                     if (!err) {
-                        assert.equal(0, result.length);
+                        assert.notOk(result[0].data);
                     }
 
                     done(err);

@@ -70,42 +70,6 @@
         {
           "predicates": [
             {
-              "equals": {
-                "path": "/api/siem/source_addresses",
-                "query": {
-                  "filter": "source_ip in ('111.111.111.111')"
-                }
-              }
-            }
-          ],
-          "responses": [
-            {
-              "is": {
-                "body": [
-                  {
-                    "local_destination_address_ids": [],
-                    "event_flow_count": 16884,
-                    "first_event_flow_seen": 1514570963708,
-                    "last_event_flow_seen": 1514665463101,
-                    "source_ip": "111.111.111.111",
-                    "magnitude": 0,
-                    "id": 1,
-                    "offense_ids": [
-                      2,
-                      3,
-                      4
-                    ],
-                    "domain_id": 0,
-                    "network": "Net-10-172-192.Net_172_16_0_0"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "predicates": [
-            {
               "or": [
                 {
                   "equals": {
@@ -321,6 +285,64 @@
         {
           "predicates": [
             {
+              "or": [
+                {
+                  "equals": {
+                    "path": "/api/siem/offenses/111"
+                  }
+                },
+                {
+                  "equals": {
+                    "path": "/api/siem/offenses/112"
+                  }
+                },
+                {
+                  "equals": {
+                    "path": "/api/siem/offenses/113"
+                  }
+                },
+                {
+                  "equals": {
+                    "path": "/api/siem/offenses/114"
+                  }
+                }
+              ]
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "body": {
+                  "severity": 8,
+                  "offense_source": "111.111.111.111"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "predicates": [
+            {
+              "equals": {
+                "path": "/api/siem/offenses/115"
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "body": {
+                  "severity": 1,
+                  "offense_source": "111.111.111.111",
+                  "status": "OPEN"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "predicates": [
+            {
               "equals": {
                 "path": "/api/siem/offenses/9999"
               }
@@ -330,6 +352,37 @@
             {
               "is": {
                 "statusCode": 500
+              }
+            }
+          ]
+        },
+        {
+          "predicates": [
+            {
+              "equals": {
+                "path": "/api/siem/source_addresses",
+                "query": {
+                  "filter": "source_ip in ('111.111.111.111')"
+                }
+              }
+            }
+          ],
+          "responses": [
+            {
+              "is": {
+                "body": [
+                  {
+                    "id": 1,
+                    "severity": 8,
+                    "offense_ids": [
+                      111,
+                      112,
+                      113,
+                      114,
+                      115
+                    ]
+                  }
+                ]
               }
             }
           ]
