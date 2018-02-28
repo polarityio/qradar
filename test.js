@@ -2,8 +2,11 @@ let assert = require('chai').assert;
 let bunyan = require('bunyan');
 let async = require('async');
 let integration = require('./integration');
+let QRadar = require('./qradar-api');
 let config = require('./config/config');
 config.request.rejectUnauthorized = false;
+
+let qradar = new QRadar({}, {});
 
 describe('IBM QRadar Integration', () => {
     let options = {
@@ -13,7 +16,7 @@ describe('IBM QRadar Integration', () => {
     };
 
     before(() => {
-        let logger = bunyan.createLogger({ name: 'Mocha Test', level: bunyan.TRACE });
+        let logger = bunyan.createLogger({ name: 'Mocha Test' });
         integration.startup(logger);
     });
 
@@ -34,6 +37,11 @@ describe('IBM QRadar Integration', () => {
             done();
         });
     });
+
+    it('should batch ips in groups of 10', () => {
+        assert.equal(1, qradar.getBatches([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).length);
+        assert.equal(2, qradar.getBatches([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]).length);
+    })
 
     describe('user configuration options', () => {
         it('should pass valid options', (done) => {

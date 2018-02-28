@@ -25,8 +25,8 @@ class QRadar {
         }
     }
 
-    getOffenses(ips, callback) {
-        let batches = ips.reduce((accum, next) => {
+    getBatches(ips) {
+        return ips.reduce((accum, next) => {
             if (accum.length == 0) {
                 accum.push([]);
             }
@@ -41,6 +41,10 @@ class QRadar {
 
             return accum;
         }, []);
+    }
+
+    getOffenses(ips, callback) {
+        let batches = this.getBatches(ips);
 
         let offenses = [];
 
