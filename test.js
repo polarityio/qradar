@@ -12,7 +12,9 @@ describe('IBM QRadar Integration', () => {
     let options = {
         username: 'mocha',
         password: 'test',
-        url: 'https://localhost:5555'
+        url: 'https://localhost:5555',
+        minimumSeverity: 5,
+        openOnly: true
     };
 
     before(() => {
@@ -181,7 +183,7 @@ describe('IBM QRadar Integration', () => {
             it('should return no results when all offenses are filtered', (done) => {
                 let opts = JSON.parse(JSON.stringify(options));
                 opts.minimumSeverity = 999;
-                integration.doLookup([{ isIP: true, value: '111.111.111.111' }], opts, (err, result) => {
+                integration.doLookup([{ isIP: true, value: '0.0.0.0' }], opts, (err, result) => {
                     if (!err) {
                         assert.notOk(result[0].data);
                     }
