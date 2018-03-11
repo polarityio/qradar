@@ -8,6 +8,10 @@ To learn more about IBM QRadar, visit the [official website](https://www.ibm.com
 
 > Note that this integration is currently in Beta.
 
+| ![image](./example.png)  |
+|---|
+|*IBM QRadar Example* |
+
 ## IBM QRadar Integration Options
 
 ### IBM QRadar Server URL
