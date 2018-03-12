@@ -1,0 +1,51 @@
+<div class="details-container">
+    {{#each details as |detail|}}
+    <div class="item">
+        <p>
+            Status:
+            <b>{{detail.status}}</b>
+        </p>
+        <p>
+            <i>{{detail.description}}</i>
+        </p>
+        <h5>
+            <i class="bts bt-fw bt-info-circle h5"></i> Info
+        </h5>
+        <p>
+
+        </p>
+        <p>
+            Severity:
+            <b>{{detail.severity}}</b>
+        </p>
+        <p>
+            Offense Source:
+            <b style="color:{{if isHighSeverity " red " "black "}}">
+                {{detail.offense_source}}
+            </b>
+        </p>
+        <p>
+            Destinations:
+            <ul>{{#each detail.destination_networks as |destination|}}
+                <li>
+                    <b>{{destination}}</b>
+                </li>
+            {{/each}}
+            </ul>
+        </p>
+        <p>
+            Source Network:
+            <b>{{detail.offense_source}}</b>
+        </p>
+        <p>
+            Categories:
+            <ul>{{#each detail.categories as |category|}}
+                <li>
+                    <b>{{category}}</b>
+                </li>
+                {{/each}}
+            </ul>
+        </p>
+    </div>
+    {{/each}}
+</div>
