@@ -45,33 +45,23 @@ function doLookup(entities, options, callback) {
 
     Logger.trace({ entityByIp: entityByIp });
 
-    api.getOffenses(ips, (err, candidates) => {
+    api.getOffenses(ips, { severity: options.minimumSeverity, openOnly: options.openOnly }, (err, offenses) => {
         if (err) {
             Logger.error({ error: err, ips: ips }, 'Error getting offense for ips');
             callback(err);
             return;
         }
 
-        let offenses = [];
         let results = [];
 
-        Logger.trace({ candidates: candidates }, 'Got response from API');
-
-        candidates.forEach(candidate => {
-            if (options.openOnly && candidate.status !== 'OPEN') {
-                return;
-            }
-
-            if (candidate.severity < options.minimumSeverity) {
-                return;
-            }
-
-            offenses.push(candidate);
-        });
-
-        Logger.trace({ offenses: offenses }, 'Offenses');
+        Logger.trace({ candidates: offenses }, 'Got response from API');
 
         offenses.forEach(offense => {
+            if (!offense) {
+                // Filter out undefined entries where QRadar filtered the response
+                return;
+            }
+
             if (!entityByIp[offense.offense_source]) {
                 // Do nothing
                 return;
