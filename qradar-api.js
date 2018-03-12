@@ -78,7 +78,8 @@ class QRadar {
                         options.qs = {
                             filter: `id in ('${ids.join("','")}') and severity >= ${offenseOptions.severity}` + (offenseOptions.openOnly ? ' and status = "OPEN"' : '')
                         }
-                        console.error('FILTER IS: ' + options.qs.filter);
+                        };
+
                         request(
                             options,
                             (err, response, offense) => {
