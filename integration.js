@@ -14,12 +14,11 @@ const PRIVATE_IPS = [
 ];
 
 function doLookup(entities, options, callback) {
-    options.ca = caContents;
-    options.cert = certContents;
-
     let api = new QRadar({
         username: options.username,
         password: options.password,
+        ca: caContents,
+        cert: certContents,
         host: options.url
     }, Logger);
 
