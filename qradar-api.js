@@ -66,9 +66,9 @@ class QRadar {
                 }
             };
 
-            let maskedOptions = JSON.parse(JSON.stringify(options));
-            maskedOptions.auth.password = '********';
-            this.logger.debug({ options: maskedOptions }, 'Request Options for Offense Search');
+            // let maskedOptions = JSON.parse(JSON.stringify(this.defaultRequestOptions()));
+            // maskedOptions.auth.password = '********';
+            // this.logger.debug({ options: maskedOptions }, 'Request Options for Offense Search');
 
             requestWithDefaults(requestOptions, (err, response, source_addresses) => {
                 if (err) {
@@ -114,7 +114,7 @@ class QRadar {
             }
             callback(err, offenses);
         });
-    }
+    };
 }
 
 module.exports = QRadar;
