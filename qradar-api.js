@@ -79,6 +79,12 @@ class QRadar {
 
                 async.each(source_addresses,
                     (address, callback) => {
+                        // It is possible an IP to be a source_address but not have any offense_ids
+                        // In this case we skip over the source_address and cache it as a miss
+                        if(!Array.isArray(address.offense_ids)){
+                            return callback(null);
+                        }
+
                         let ids = address.offense_ids
                             .reduce((accum, next) => accum.concat(next), []);
 
