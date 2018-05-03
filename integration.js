@@ -33,12 +33,12 @@ function doLookup(entities, options, callback) {
         accum[next.value] = {
             entity: next,
             data: {
-                summary: ['test'],
+                summary: [],  // we add tags via a custom summary block
                 details: []
             }
         };
         return accum;
-    }, {})
+    }, {});
 
     Logger.trace('Getting offense from QRadar API');
 
