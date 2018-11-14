@@ -135,7 +135,7 @@ module.exports = {
             name: "Minimum Severity Level",
             description: "The minimum severity level required for indicators to be displayed",
             default: 0,
-            type: "text",
+            type: "number",
             userCanEdit: true,
             adminOnly: false
         },
