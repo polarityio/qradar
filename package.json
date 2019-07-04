@@ -8,13 +8,16 @@
     "pretest": "mb start --configfile imposters.json &",
     "test": "mocha --recursive || mb stop",
     "posttest": "mb stop",
-    "dev": "./sync.js"
+    "dev": "./sync.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "Polarity",
   "license": "MIT",
   "dependencies": {
     "async": "^2.6.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "bunyan": "^1.8.12",
@@ -24,5 +27,6 @@
     "node-ssh": "^5.0.0",
     "node-watch": "^0.5.5",
     "scp2": "^0.5.0"
-  }
+  },
+  "snyk": true
 }
