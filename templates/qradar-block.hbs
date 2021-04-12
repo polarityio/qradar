@@ -1,51 +1,68 @@
-<div class="details-container">
-    {{#each details as |detail|}}
-    <div class="item">
-        <p>
-            Status:
-            <b>{{detail.status}}</b>
-        </p>
-        <p>
-            <i>{{detail.description}}</i>
-        </p>
-        <h5>
-            <i class="fa fa-fw fa-info-circle h5"></i> Info
-        </h5>
-        <p>
-
-        </p>
-        <p>
-            Severity:
-            <b>{{detail.severity}}</b>
-        </p>
-        <p>
-            Offense Source:
-            <b style="color:{{if isHighSeverity " red " "black "}}">
-                {{detail.offense_source}}
-            </b>
-        </p>
-        <p>
-            Destinations:
-            <ul>{{#each detail.destination_networks as |destination|}}
-                <li>
-                    <b>{{destination}}</b>
-                </li>
-            {{/each}}
-            </ul>
-        </p>
-        <p>
-            Source Network:
-            <b>{{detail.offense_source}}</b>
-        </p>
-        <p>
-            Categories:
-            <ul>{{#each detail.categories as |category|}}
-                <li>
-                    <b>{{category}}</b>
-                </li>
-                {{/each}}
-            </ul>
-        </p>
-    </div>
+{{#each details as |offense index|}}
+  {{#if (gt index 0)}}
+    <hr>
+  {{/if}}
+  <div class="p-link">
+    <a href="{{offense._link}}">View in QRadar {{fa-icon "external-link-square" class="external-link-icon"}}</a>
+  </div>
+  <h1 class="p-title">{{fa-icon icon="info" fixedWidth=true}} Info</h1>
+  <div>
+    <span class="p-key">Status:</span>
+    <span class="p-value">{{offense.status}}</span>
+  </div>
+  <div>
+    <span class="p-key">Description:</span>
+    <span class="p-block">{{offense.description}}</span>
+  </div>
+  <div>
+    <span class="p-key">Severity:</span>
+    <span class="p-value">{{offense.severity}}</span>
+  </div>
+  <div>
+    <span class="p-key">Offense Source:</span>
+    <span class="p-value">{{offense.offense_source}}</span>
+  </div>
+  <div>
+    <span class="p-key">Event Count:</span>
+    <span class="p-value">{{offense.event_count}}</span>
+  </div>
+  <div>
+    <span class="p-key">Start Time:</span>
+    <span class="p-value">{{moment-format offense.start_time timeZone=timezone}}</span>
+  </div>
+  <div>
+    <span class="p-key">Last Updated:</span>
+    <span class="p-value">{{moment-format offense.last_updated_time timeZone=timezone}}</span>
+  </div>
+  <div>
+    <span class="p-key">Assigned To:</span>
+    <span class="p-value">{{offense.assigned_to}}</span>
+  </div>
+  <h1 class="p-title">{{fa-icon icon="map-marker" fixedWidth=true}} Destinations</h1>
+  {{#each offense.destination_networks as |destination|}}
+    <span class="p-tag">{{destination}}</span>
+  {{/each}}
+  <h1 class="p-title">{{fa-icon icon="ruler-triangle" fixedWidth=true}} Rules</h1>
+  {{#each offense.rules as |rule|}}
+    <span class="p-tag">{{rule.type}}</span>
+  {{/each}}
+  <h1 class="p-title">{{fa-icon icon="box" fixedWidth=true}} Categories</h1>
+  {{#each offense.categories as |category|}}
+    <span class="p-tag">{{category}}</span>
+  {{/each}}
+  {{#if offense.log_sources}}
+    <h1 class="p-title">{{fa-icon icon="database" fixedWidth=true}} Log Sources</h1>
+    {{#each offense.log_sources as |log|}}
+      <div class="offset">
+        <div>
+          <span class="p-key">Type</span>
+          <span class="p-value">{{log.type_name}}</span>
+        </div>
+        <div>
+          <span class="p-key">Name</span>
+          <span class="p-value">{{log.name}}</span>
+        </div>
+      </div>
     {{/each}}
-</div>
+  {{/if}}
+{{/each}}

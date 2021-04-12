@@ -39,9 +39,7 @@ function doLookup(entities, options, callback) {
     return accum;
   }, {});
 
-  Logger.trace('Getting offense from QRadar API');
-
-  Logger.trace({ entityByIp: entityByIp });
+  Logger.trace('Getting offense from QRadar API', { entityByIp: entityByIp });
 
   api.getOffenses(ips, { severity: options.minimumSeverity, openOnly: options.openOnly }, (err, offenses) => {
     if (err) {
@@ -64,7 +62,7 @@ function doLookup(entities, options, callback) {
         // Do nothing
         return;
       }
-
+      offense._link = `${options.url}/console/qradar/jsp/QRadar.jsp?appName=Sem&noBTrail=true&pageId=OffenseAttackerList&summaryId=${offense.id}`;
       entityByIp[offense.offense_source].data.details.push(offense);
     });
 

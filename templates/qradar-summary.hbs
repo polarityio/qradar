@@ -1,34 +1,35 @@
-{{#each details as |detail|}}
-<span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
-    <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
-    <span class="integration-text-color">
-        {{detail.source_network}}
-    </span>
-</span>
+{{#each details as |offense|}}
+  <span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
+      <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
+      <span class="integration-text-color">
+          {{offense.source_network}}
+      </span>
+  </span>
 
-{{#each detail.destination_networks as |destination|}}
-<span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
-    <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
-    <span class="integration-text-color">
-        {{destination}}
-    </span>
-</span>
-{{/each}}
+  {{#each offense.destination_networks as |destination|}}
+    {{#if (not-eq destination offense.source_network)}}
+      <span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
+          <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
+          <span class="integration-text-color">
+              {{destination}}
+          </span>
+      </span>
+    {{/if}}
+  {{/each}}
 
-<span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
-    <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
-    <span class="integration-text-color">
-        Sev {{detail.severity}}
-    </span>
-</span>
+  <span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
+      <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
+      <span class="integration-text-color">
+          Sev {{offense.severity}}
+      </span>
+  </span>
 
-{{#each detail.categories as |category|}}
-<span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
-    <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
-    <span class="integration-text-color">
-        {{category}}
+  {{#each offense.categories as |category|}}
+    <span {{on "click" (optional this.scrollToIntegration)}} class="integration-summary-tag integration-background-color integration-border-color">
+        <span class="acronym integration-text-bold-color">{{block.acronym}}</span>
+        <span class="integration-text-color">
+            {{category}}
+        </span>
     </span>
-</span>
-{{/each}}
-
+  {{/each}}
 {{/each}}
