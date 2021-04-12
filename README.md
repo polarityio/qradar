@@ -6,7 +6,7 @@ To learn more about IBM QRadar, visit the [official website](https://www.ibm.com
 
 > Note that this integration is currently in Beta.
 
-| ![image](./assets/overlay.png)  |
+| <img src="./assets/overlay.png" width=50%/> |
 |---|
 |*IBM QRadar Example* |
 
