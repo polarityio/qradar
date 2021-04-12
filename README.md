@@ -4,9 +4,7 @@ Polarity's IBM QRadar integration allows automated IPv4 lookups against IBM QRad
 
 To learn more about IBM QRadar, visit the [official website](https://www.ibm.com/us-en/marketplace/ibm-qradar-siem).
 
-> Note that this integration is currently in Beta.
-
-| ![image](./assets/overlay.png)  |
+| <img src="./assets/overlay.png" width=50%/> |
 |---|
 |*IBM QRadar Example* |
 
@@ -32,6 +30,6 @@ If set to true, only offenses with a status value of 'OPEN' will be searched
 
 ## Polarity
 
-Polarity is a memory-augmentation platform that improves and accelerates analyst decision making.  For more information about the Polarity platform please see: 
+Polarity is a memory-augmentation platform that improves and accelerates analyst decision-making.  For more information about the Polarity platform please see: 
 
 https://polarity.io/
