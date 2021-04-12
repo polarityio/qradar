@@ -1,6 +1,6 @@
 {
   "name": "qradar",
-  "version": "1.0.3-beta",
+  "version": "3.0.0-beta",
   "private": true,
   "description": "![image](https://img.shields.io/badge/status-beta-green.svg)",
   "main": "./integration.js",
@@ -13,8 +13,8 @@
   "author": "Polarity",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.6.0",
-    "request": "^2.88.0"
+    "async": "^3.2.0",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "bunyan": "^1.8.12",

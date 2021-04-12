@@ -1,14 +1,12 @@
 # Polarity IBM QRadar Integration
 
-![image](https://img.shields.io/badge/status-beta-green.svg)
-
 Polarity's IBM QRadar integration allows automated IPv4 lookups against IBM QRadar's offense database.
 
 To learn more about IBM QRadar, visit the [official website](https://www.ibm.com/us-en/marketplace/ibm-qradar-siem).
 
 > Note that this integration is currently in Beta.
 
-| ![image](./example.png)  |
+| ![image](./assets/overlay.png)  |
 |---|
 |*IBM QRadar Example* |
 
