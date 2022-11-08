@@ -1,4 +1,4 @@
-let request = require('request');
+let request = require('postman-request');
 let async = require('async');
 let config = require('./config/config');
 let requestWithDefaults;
