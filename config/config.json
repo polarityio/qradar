@@ -1,0 +1,96 @@
+{
+  "name": "IBM QRadar",
+  "acronym": "QR",
+  "onDemandOnly": true,
+  "defaultColor": "light-gray",
+  "description": "IBMB. QRadarB. SIEM helps uncover security risks by analyzing and correlating log and networks events.",
+  "entityTypes": [
+    "IPv4"
+  ],
+  "styles": [
+    "./styles/qradar.less"
+  ],
+  "block": {
+    "component": {
+      "file": "./components/qradar-block.js"
+    },
+    "template": {
+      "file": "./templates/qradar-block.hbs"
+    }
+  },
+  "summary": {
+    "component": {
+      "file": "./components/qradar-summary.js"
+    },
+    "template": {
+      "file": "./templates/qradar-summary.hbs"
+    }
+  },
+  "request": {
+    "cert": "",
+    "key": "",
+    "passphrase": "",
+    "ca": "",
+    "proxy": "",
+    "rejectUnauthorized": true
+  },
+  "logging": {
+    "level": "info"
+  },
+  "options": [
+    {
+      "key": "url",
+      "name": "IBM QRadar Server URL",
+      "description": "The URL for your IBM QRadar server which should include the schema (i.e., http, https) and port if required",
+      "default": "",
+      "type": "text",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "username",
+      "name": "Username",
+      "description": "The username of the IBM QRadar user you want the integration to authenticate as",
+      "default": "",
+      "type": "text",
+      "userCanEdit": true,
+      "adminOnly": false
+    },
+    {
+      "key": "password",
+      "name": "password",
+      "description": "The password for the provided username you want the integration to authenticate as",
+      "default": "",
+      "type": "password",
+      "userCanEdit": true,
+      "adminOnly": false
+    },
+    {
+      "key": "ignorePrivateIps",
+      "name": "Ignore Private IPs",
+      "description": "If set to true, private IPs (RFC 1918 addresses) will not be looked up (includes 127.0.0.1, 0.0.0.0, and 255.255.255.255)",
+      "default": true,
+      "type": "boolean",
+      "userCanEdit": false,
+      "adminOnly": true
+    },
+    {
+      "key": "minimumSeverity",
+      "name": "Minimum Severity Level",
+      "description": "The minimum severity level required for indicators to be displayed",
+      "default": 0,
+      "type": "number",
+      "userCanEdit": true,
+      "adminOnly": false
+    },
+    {
+      "key": "openOnly",
+      "name": "Open Offenses Only",
+      "description": "If set to true, only offenses with a status value of 'OPEN' will be searched",
+      "default": true,
+      "type": "boolean",
+      "userCanEdit": false,
+      "adminOnly": true
+    }
+  ]
+}
