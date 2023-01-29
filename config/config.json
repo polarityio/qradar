@@ -53,8 +53,8 @@
       "description": "The username of the IBM QRadar user you want the integration to authenticate as",
       "default": "",
       "type": "text",
-      "userCanEdit": true,
-      "adminOnly": false
+      "userCanEdit": false,
+      "adminOnly": true
     },
     {
       "key": "password",
@@ -62,8 +62,8 @@
       "description": "The password for the provided username you want the integration to authenticate as",
       "default": "",
       "type": "password",
-      "userCanEdit": true,
-      "adminOnly": false
+      "userCanEdit": false,
+      "adminOnly": true
     },
     {
       "key": "ignorePrivateIps",
@@ -80,8 +80,8 @@
       "description": "The minimum severity level required for indicators to be displayed",
       "default": 0,
       "type": "number",
-      "userCanEdit": true,
-      "adminOnly": false
+      "userCanEdit": false,
+      "adminOnly": true
     },
     {
       "key": "openOnly",
