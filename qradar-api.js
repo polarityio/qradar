@@ -79,6 +79,22 @@ class QRadar {
             return;
           }
 
+          this.logger.trace(
+            {
+              source_addresses,
+              statusCode: response.statusCode
+            },
+            'Get Offenses Search Response'
+          );
+
+          if (response.statusCode < 200 || response.statusCode > 299) {
+            const body = response.body;
+            return callback({
+              detail: body.description ? body.description : `Unexpected status code ${response.statusCode} received`,
+              body
+            });
+          }
+
           async.each(
             source_addresses,
             (address, callback) => {
