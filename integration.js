@@ -1,7 +1,6 @@
-let async = require('async');
-let config = require('./config/config');
-
-let QRadar = new require('./qradar-api');
+const config = require('./config/config');
+const QRadar = new require('./qradar-api');
+const fs = require('fs');
 
 let Logger;
 let caContents;
