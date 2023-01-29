@@ -1,8 +1,7 @@
 {
   "name": "qradar",
-  "version": "3.0.3-beta",
+  "version": "3.0.4",
   "private": true,
-  "description": "![image](https://img.shields.io/badge/status-beta-green.svg)",
   "main": "./integration.js",
   "scripts": {
     "pretest": "mb start --configfile imposters.json &",
