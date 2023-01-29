@@ -1,6 +1,6 @@
 {
   "name": "qradar",
-  "version": "3.0.1-beta",
+  "version": "3.0.3-beta",
   "private": true,
   "description": "![image](https://img.shields.io/badge/status-beta-green.svg)",
   "main": "./integration.js",
@@ -14,15 +14,6 @@
   "license": "MIT",
   "dependencies": {
     "async": "^3.2.0",
-    "request": "^2.88.2"
-  },
-  "devDependencies": {
-    "bunyan": "^1.8.12",
-    "chai": "^4.1.2",
-    "mocha": "^4.1.0",
-    "mountebank": "^1.13.0",
-    "node-ssh": "^5.0.0",
-    "node-watch": "^0.5.5",
-    "scp2": "^0.5.0"
+    "postman-request": "^2.88.1-postman.32"
   }
 }

@@ -7,7 +7,19 @@ let config = require('./config/config');
 config.request.rejectUnauthorized = false;
 
 let qradar = new QRadar({}, {});
-
+/**
+ * For tests to work you must add this to the package.json file and run `npm install`
+ * 
+    "devDependencies": {
+        "bunyan": "^1.8.12",
+        "chai": "^4.1.2",
+        "mocha": "^10.1.0",
+        "mountebank": "^2.8.1",
+        "node-ssh": "^13.0.0",
+        "node-watch": "^0.5.5",
+        "scp2": "^0.5.0"
+    }
+ */
 describe('IBM QRadar Integration', () => {
     let options = {
         username: 'mocha',
