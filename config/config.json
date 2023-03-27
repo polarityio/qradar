@@ -1,9 +1,10 @@
 {
+  "polarityIntegrationUuid": "becd0ad0-cce1-11ed-aeee-075d3490155d",
   "name": "IBM QRadar",
   "acronym": "QR",
   "onDemandOnly": true,
   "defaultColor": "light-gray",
-  "description": "IBM® QRadar® SIEM helps uncover security risks by analyzing and correlating log and networks events.",
+  "description": "IBMB. QRadarB. SIEM helps uncover security risks by analyzing and correlating log and networks events.",
   "entityTypes": [
     "IPv4"
   ],
