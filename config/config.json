@@ -4,7 +4,7 @@
   "acronym": "QR",
   "onDemandOnly": true,
   "defaultColor": "light-gray",
-  "description": "IBMB. QRadarB. SIEM helps uncover security risks by analyzing and correlating log and networks events.",
+  "description": "IBM® QRadar® SIEM helps uncover security risks by analyzing and correlating log and networks events.",
   "entityTypes": [
     "IPv4"
   ],
