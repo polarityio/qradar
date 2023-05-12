@@ -15,14 +15,21 @@ class QRadar {
   defaultRequestOptions() {
     let requestOptions = {
       json: true,
-      auth: {
-        username: this.options.username,
-        password: this.options.password
-      },
       method: 'GET',
       proxy: config.proxy,
       strictSSL: config.request.rejectUnauthorized
     };
+
+    if (this.options.username && this.options.password) {
+      requestOptions.auth = {
+        username: this.options.username,
+        password: this.options.password
+      };
+    } else {
+      requestOptions.headers = {
+        SEC: this.options.secToken
+      };
+    }
 
     if (this.options.ca) {
       requestOptions.ca = this.options.ca;
@@ -75,7 +82,10 @@ class QRadar {
         requestWithDefaults(requestOptions, (err, response, source_addresses) => {
           if (err) {
             this.logger.error({ error: err }, 'Search returned error');
-            callback(err);
+            callback({
+              detail: 'Unexpected network error encountered',
+              err
+            });
             return;
           }
 

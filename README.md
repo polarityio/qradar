@@ -14,13 +14,16 @@ To learn more about IBM QRadar, visit the [official website](https://www.ibm.com
 The URL for your IBM QRadar server which should include the schema (i.e., http, https) and port if required
 
 ### Username
-The username of the IBM QRadar user you want the integration to authenticate as
+The username of the IBM QRadar user you want the integration to authenticate as. You must provide either a Username and Password or a Security Token.
 
 ### Password
-The password for the provided username you want the integration to authenticate as
+The password for the provided username you want the integration to authenticate as. You must provide either a Username and Password or a Security Token.
+
+### Security Token
+Your IBM QRadar Security Token used for authentication. You must provide either a Username and Password or a Security Token.
 
 ### Ignore Private IPs
-If set to true, private IPs (RFC 1918 addresses) will not be looked up (includes 127.0.0.1, 0.0.0.0, and 255.255.255.255)
+If enabled, private IPs (RFC 1918 addresses) will not be looked up (includes 127.0.0.1, 0.0.0.0, and 255.255.255.255)
 
 ### Minimum Severity Level
 The minimum severity level required for indicators to be displayed
