@@ -13,6 +13,7 @@ function doLookup(entities, options, callback) {
     {
       username: options.username,
       password: options.password,
+      secToken: options.secToken,
       ca: caContents,
       cert: certContents,
       host: options.url
@@ -108,25 +109,74 @@ function validateOption(errors, options, optionName, errMessage) {
 function validateOptions(options, callback) {
   let errors = [];
 
+  const hasUsername = options.username.value.length > 0;
+  const hasPassword = options.password.value.length > 0;
+  const hasToken = options.secToken.value.length > 0;
+
   validateOption(errors, options, 'url', 'You must provide a valid host for the IBM QRadar server.');
-  validateOption(
-    errors,
-    options,
-    'username',
-    'You must provide a valid username for authentication with the IBM QRadar server.'
-  );
-  validateOption(
-    errors,
-    options,
-    'password',
-    'You must provide a valid password for authentication with the IBM QRadar server.'
-  );
+
+  if (!hasUsername && !hasPassword && !hasToken) {
+    errors.push({
+      key: 'username',
+      message:
+        'You must provide either a Username and Password, or a Security Token for authentication with the IBM QRadar server, .'
+    });
+
+    errors.push({
+      key: 'password',
+      message:
+        'You must provide either a Username and Password, or a Security Token. for authentication with the IBM QRadar server.'
+    });
+
+    errors.push({
+      key: 'secToken',
+      message:
+        'You must provide either a Security Token, or a Username and Password for authentication with the IBM QRadar server.'
+    });
+  }
+
+  if ((hasUsername || hasPassword) && hasToken) {
+    errors.push({
+      key: 'username',
+      message: 'Provide a Username and Password, or a Security Token, but not both.'
+    });
+
+    errors.push({
+      key: 'password',
+      message: 'Provide a Username and Password, or a Security Token, but not both.'
+    });
+
+    errors.push({
+      key: 'secToken',
+      message: 'Provide a Username and Password, or a Security Token, but not both.'
+    });
+  }
+
+  // Return any combo errors and exit early before testing single options to prevent duplicate
+  // error messages on the same field.
+  if (errors.length > 0) {
+    return callback(null, errors);
+  }
+
+  if (hasUsername && !hasPassword) {
+    errors.push({
+      key: 'password',
+      message: 'A valid Password is required with a Username.'
+    });
+  }
+
+  if (!hasUsername && hasPassword) {
+    errors.push({
+      key: 'username',
+      message: 'A valid Username is required with a Username.'
+    });
+  }
 
   callback(null, errors);
 }
 
 module.exports = {
-  doLookup: doLookup,
-  startup: startup,
-  validateOptions: validateOptions
+  doLookup,
+  startup,
+  validateOptions
 };

@@ -100,7 +100,7 @@ module.exports = {
       key: 'url',
       name: 'IBM QRadar Server URL',
       description:
-        'The URL for your IBM QRadar server which should include the schema (i.e., http, https) and port if required',
+        'The URL for your IBM QRadar server which should include the schema (i.e., http, https) and port if required.',
       default: '',
       type: 'text',
       userCanEdit: false,
@@ -109,7 +109,7 @@ module.exports = {
     {
       key: 'username',
       name: 'Username',
-      description: 'The username of the IBM QRadar user you want the integration to authenticate as',
+      description: 'The username of the IBM QRadar user you want the integration to authenticate as. You must provide either a Username and Password or a Security Token.',
       default: '',
       type: 'text',
       userCanEdit: false,
@@ -118,7 +118,16 @@ module.exports = {
     {
       key: 'password',
       name: 'password',
-      description: 'The password for the provided username you want the integration to authenticate as',
+      description: 'The password for the provided username you want the integration to authenticate as. You must provide either a Username and Password or a Security Token.',
+      default: '',
+      type: 'password',
+      userCanEdit: false,
+      adminOnly: true
+    },
+    {
+      key: 'secToken',
+      name: 'Security Token',
+      description: 'Your IBM QRadar Security Token used for authentication. You must provide either a Username and Password or a Security Token.',
       default: '',
       type: 'password',
       userCanEdit: false,
@@ -128,7 +137,7 @@ module.exports = {
       key: 'ignorePrivateIps',
       name: 'Ignore Private IPs',
       description:
-        'If set to true, private IPs (RFC 1918 addresses) will not be looked up (includes 127.0.0.1, 0.0.0.0, and 255.255.255.255)',
+        'If enabled, private IPs (RFC 1918 addresses) will not be looked up (includes 127.0.0.1, 0.0.0.0, and 255.255.255.255).',
       default: true,
       type: 'boolean',
       userCanEdit: false,
@@ -137,7 +146,7 @@ module.exports = {
     {
       key: 'minimumSeverity',
       name: 'Minimum Severity Level',
-      description: 'The minimum severity level required for indicators to be displayed',
+      description: 'The minimum severity level required for indicators to be displayed.',
       default: 0,
       type: 'number',
       userCanEdit: false,
@@ -146,7 +155,7 @@ module.exports = {
     {
       key: 'openOnly',
       name: 'Open Offenses Only',
-      description: "If set to true, only offenses with a status value of 'OPEN' will be searched",
+      description: "If enabled, only offenses with a status value of 'OPEN' will be searched.",
       default: true,
       type: 'boolean',
       userCanEdit: false,
