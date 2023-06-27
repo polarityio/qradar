@@ -16,8 +16,7 @@ class QRadar {
     let requestOptions = {
       json: true,
       method: 'GET',
-      proxy: config.proxy,
-      strictSSL: config.request.rejectUnauthorized
+      proxy: config.proxy
     };
 
     if (this.options.username && this.options.password) {
