@@ -24,7 +24,7 @@ module.exports = {
    * @type String
    * @optional
    */
-  description: 'IBM® QRadar® SIEM helps uncover security risks by analyzing and correlating log and networks events.',
+  description: 'IBMB. QRadarB. SIEM helps uncover security risks by analyzing and correlating log and networks events.',
   entityTypes: ['IPv4'],
   /**
    * An array of style files (css or less) that will be included for your integration. Any styles specified in
@@ -73,9 +73,7 @@ module.exports = {
     ca: '',
     // An HTTP proxy to be used. Supports proxy Auth with Basic Auth, identical to support for
     // the url parameter (by embedding the auth info in the uri)
-    proxy: '',
-
-    rejectUnauthorized: true
+    proxy: ""
   },
   logging: {
     // directory is relative to the this integrations directory
