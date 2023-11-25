@@ -12,7 +12,7 @@
   "author": "Polarity",
   "license": "MIT",
   "dependencies": {
-    "async": "^3.2.4",
+    "async": "^3.2.5",
     "postman-request": "^2.88.1-postman.32"
   }
 }
